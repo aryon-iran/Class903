@@ -1,698 +1,312 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#060709" />
-<meta name="description" content="Aryon | در حال ساخت هسته EUD — کلاس ۹۰۳" />
-<title>Aryon | هسته EUD — کلاس ۹۰۳</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروژه منسوخ شده | گروه Aryon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  :root {
-    --bg: #060709;
-    --text: #f4f7fa;
-    --text-2: #a8b0bd;
-    --text-3: #6b7280;
-    --ice: #7dd3fc;
-    --ice-2: #38bdf8;
-    --ice-deep: #0ea5e9;
-    --ice-soft: rgba(125, 211, 252, 0.08);
-    --ice-border: rgba(125, 211, 252, 0.2);
-    --glow: rgba(125, 211, 252, 0.5);
-    --line: rgba(255, 255, 255, 0.06);
-  }
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            min-height: 100vh;
+            background: #0a0a0f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            color: #fff;
+        }
 
-  html, body {
-    min-height: 100%;
-    font-family: 'Vazirmatn', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
+        /* پس‌زمینه متحرک */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.25), transparent 45%),
+                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.25), transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15), transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+            z-index: 0;
+        }
 
-  /* پس‌زمینه */
-  .bg {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-  .bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(125, 211, 252, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(125, 211, 252, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 80%);
-    animation: gridMove 20s linear infinite;
-  }
-  @keyframes gridMove {
-    to { background-position: 50px 50px; }
-  }
-  .bg-glow {
-    position: absolute;
-    top: 45%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 1000px; height: 1000px;
-    background: radial-gradient(circle, rgba(125, 211, 252, 0.12), transparent 60%);
-    filter: blur(90px);
-    animation: breathe 6s ease-in-out infinite;
-  }
-  @keyframes breathe {
-    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
-  }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
 
-  /* ذرات */
-  #particles {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.6;
-  }
+        /* ذرات شناور */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
 
-  /* کانتینر */
-  .wrap {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px 90px;
-    text-align: center;
-    position: relative;
-  }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
 
-  /* لوگو */
-  .logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 30px;
-    animation: fadeUp 0.9s ease both;
-  }
-  .logo-img-wrap {
-    position: relative;
-    width: 96px;
-    height: 96px;
-    display: grid;
-    place-items: center;
-  }
-  .logo-img-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--ice-soft), transparent 70%);
-    filter: blur(15px);
-    animation: breathe 4s ease-in-out infinite;
-  }
-  .logo-img-wrap::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 26px;
-    background: linear-gradient(135deg, var(--ice), var(--ice-2), transparent 70%);
-    opacity: 0.6;
-    filter: blur(8px);
-    animation: spinGlow 8s linear infinite;
-  }
-  @keyframes spinGlow {
-    to { transform: rotate(360deg); }
-  }
-  .logo-img {
-    position: relative;
-    width: 96px;
-    height: 96px;
-    object-fit: cover;
-    border-radius: 22px;
-    border: 1px solid var(--ice-border);
-    box-shadow:
-      0 0 30px rgba(125, 211, 252, 0.4),
-      0 0 60px rgba(125, 211, 252, 0.15),
-      inset 0 0 20px rgba(0, 0, 0, 0.4);
-    z-index: 1;
-  }
-  .logo-name {
-    font-size: 1.6rem;
-    font-weight: 900;
-    letter-spacing: 3px;
-    background: linear-gradient(135deg, var(--ice), #fff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
 
-  /* چرخ‌دنده‌ها */
-  .gear-wrap {
-    position: relative;
-    width: 130px;
-    height: 130px;
-    margin-bottom: 32px;
-    display: grid;
-    place-items: center;
-    animation: fadeUp 0.9s 0.1s ease both;
-  }
-  .gear-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -30px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(125, 211, 252, 0.12), transparent 65%);
-    filter: blur(20px);
-    animation: breathe 4s ease-in-out infinite;
-  }
+        /* کارت اصلی */
+        .card {
+            position: relative;
+            z-index: 10;
+            max-width: 720px;
+            width: 90%;
+            padding: 60px 50px;
+            background: rgba(20, 20, 30, 0.55);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            animation: cardIn 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
 
-  .gear {
-    position: absolute;
-    color: var(--ice);
-    filter: drop-shadow(0 0 12px var(--glow));
-    transform-origin: center;
-  }
-  .gear-1 {
-    width: 100px; height: 100px;
-    top: 50%; left: 50%;
-    margin: -50px 0 0 -50px;
-    animation: spin 8s linear infinite;
-  }
-  .gear-2 {
-    width: 56px; height: 56px;
-    top: 50%; left: 50%;
-    margin: -28px 0 0 -28px;
-    color: var(--ice-2);
-    animation: spinReverse 5s linear infinite;
-    filter: drop-shadow(0 0 10px var(--glow));
-  }
-  .gear-3 {
-    width: 36px; height: 36px;
-    top: calc(50% - 52px);
-    left: calc(50% + 40px);
-    color: var(--ice);
-    opacity: 0.75;
-    animation: spin 6s linear infinite;
-    filter: drop-shadow(0 0 8px var(--glow));
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes spinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
 
-  /* وضعیت */
-  .status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: var(--ice-soft);
-    border: 1px solid var(--ice-border);
-    border-radius: 30px;
-    font-size: 0.82rem;
-    color: var(--ice);
-    font-weight: 500;
-    margin-bottom: 24px;
-    animation: fadeUp 0.9s 0.2s ease both;
-    position: relative;
-    overflow: hidden;
-  }
-  .status::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.15), transparent);
-    transform: translateX(-100%);
-    animation: shimmer 3s infinite;
-  }
-  @keyframes shimmer {
-    to { transform: translateX(100%); }
-  }
-  .dot {
-    width: 7px; height: 7px;
-    background: var(--ice);
-    border-radius: 50%;
-    box-shadow: 0 0 0 0 var(--glow);
-    animation: pulse 2s infinite;
-    flex-shrink: 0;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 var(--glow); }
-    70% { box-shadow: 0 0 0 10px rgba(125, 211, 252, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(125, 211, 252, 0); }
-  }
+        /* آیکون هشدار */
+        .icon-wrapper {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
 
-  /* تیتر کلاس */
-  .class-tag {
-    font-family: 'Courier New', monospace;
-    font-size: 0.8rem;
-    color: var(--text-3);
-    letter-spacing: 6px;
-    margin-bottom: 12px;
-    animation: fadeUp 0.9s 0.3s ease both;
-  }
-  .class-name {
-    font-size: clamp(2.4rem, 7vw, 4.5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    margin-bottom: 22px;
-    animation: fadeUp 0.9s 0.35s ease both;
-  }
-  .class-name span {
-    background: linear-gradient(135deg, var(--ice), #e0f2fe);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    display: inline-block;
-    position: relative;
-    animation: glowText 3s ease-in-out infinite;
-  }
-  @keyframes glowText {
-    0%, 100% { filter: drop-shadow(0 0 12px rgba(125, 211, 252, 0.4)); }
-    50% { filter: drop-shadow(0 0 30px rgba(125, 211, 252, 0.8)); }
-  }
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
-  /* تیتر EUD با گلیچ */
-  .eud-title {
-    font-size: clamp(1.4rem, 4vw, 2.2rem);
-    font-weight: 800;
-    line-height: 1.3;
-    margin-bottom: 22px;
-    animation: fadeUp 0.9s 0.4s ease both;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .eud-title .word {
-    color: var(--text-0);
-    color: #f4f7fa;
-  }
-  .eud-title .eud {
-    position: relative;
-    color: var(--ice);
-    font-family: 'Courier New', monospace;
-    letter-spacing: 3px;
-    padding: 4px 12px;
-    border: 1px solid var(--ice-border);
-    border-radius: 8px;
-    background: rgba(125, 211, 252, 0.06);
-    text-shadow: 0 0 20px var(--glow);
-    animation: eudPulse 2s ease-in-out infinite;
-  }
-  @keyframes eudPulse {
-    0%, 100% {
-      box-shadow: 0 0 0 0 rgba(125, 211, 252, 0.4);
-      border-color: rgba(125, 211, 252, 0.3);
-    }
-    50% {
-      box-shadow: 0 0 30px 4px rgba(125, 211, 252, 0.3);
-      border-color: rgba(125, 211, 252, 0.7);
-    }
-  }
+        .icon-wrapper::before,
+        .icon-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid rgba(245, 158, 11, 0.5);
+            animation: ripple 2.5s ease-out infinite;
+        }
 
-  /* توضیح */
-  .sub {
-    font-size: 1rem;
-    color: var(--text-2);
-    line-height: 2;
-    max-width: 520px;
-    margin-bottom: 36px;
-    animation: fadeUp 0.9s 0.45s ease both;
-  }
-  .sub strong {
-    color: var(--ice);
-    font-weight: 600;
-  }
+        .icon-wrapper::after {
+            animation-delay: 1.25s;
+        }
 
-  /* نوار پیشرفت */
-  .progress-wrap {
-    width: 100%;
-    max-width: 420px;
-    margin-bottom: 40px;
-    animation: fadeUp 0.9s 0.5s ease both;
-  }
-  .progress-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    color: var(--text-3);
-    margin-bottom: 10px;
-  }
-  .progress-head .value {
-    color: var(--ice);
-    font-family: 'Courier New', monospace;
-    font-weight: 700;
-  }
-  .progress-bar {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 30px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--line);
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--ice-deep), var(--ice), var(--ice-2));
-    border-radius: 30px;
-    width: 0%;
-    transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    position: relative;
-    box-shadow: 0 0 20px var(--glow);
-  }
-  .progress-fill::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-    animation: shimmer2 2s infinite;
-    border-radius: 30px;
-  }
-  @keyframes shimmer2 {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(100%); }
-  }
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
 
-  /* جداکننده */
-  .sep {
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--ice), transparent);
-    margin-bottom: 30px;
-    opacity: 0.5;
-    animation: fadeUp 0.9s 0.55s ease both;
-  }
+        .icon-wrapper svg {
+            width: 55px;
+            height: 55px;
+            stroke: #fff;
+            stroke-width: 2.5;
+        }
 
-  /* شبکه‌های اجتماعی */
-  .socials {
-    display: flex;
-    gap: 10px;
-    animation: fadeUp 0.9s 0.6s ease both;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .socials a {
-    display: grid;
-    place-items: center;
-    width: 46px; height: 46px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    color: var(--text-2);
-    text-decoration: none;
-    transition: 0.3s;
-    position: relative;
-  }
-  .socials a:hover {
-    border-color: var(--ice-border);
-    color: var(--ice);
-    background: var(--ice-soft);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(125, 211, 252, 0.15);
-  }
-  .socials svg { width: 20px; height: 20px; }
-  .socials a::after {
-    content: attr(data-label);
-    position: absolute;
-    bottom: -26px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.7rem;
-    color: var(--text-3);
-    white-space: nowrap;
-    opacity: 0;
-    transition: 0.3s;
-    pointer-events: none;
-  }
-  .socials a:hover::after {
-    opacity: 1;
-    bottom: -24px;
-  }
+        /* عنوان */
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #f9a8d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
 
-  /* فوتر */
-  .footer {
-    position: fixed;
-    bottom: 20px;
-    left: 0; right: 0;
-    text-align: center;
-    font-size: 0.78rem;
-    color: var(--text-3);
-    animation: fadeUp 0.9s 0.8s ease both;
-    padding: 0 20px;
-  }
-  .footer a {
-    color: var(--text-2);
-    text-decoration: none;
-    transition: 0.3s;
-  }
-  .footer a:hover { color: var(--ice); }
+        /* متن توضیحات */
+        .description {
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
 
-  /* انیمیشن ورود */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+        .description strong {
+            color: #f9a8d4;
+            font-weight: 700;
+        }
 
-  /* موبایل */
-  @media (max-width: 480px) {
-    .wrap { padding: 30px 16px 100px; }
-    .logo-img, .logo-img-wrap { width: 78px; height: 78px; }
-    .gear-wrap { width: 100px; height: 100px; margin-bottom: 24px; }
-    .gear-1 { width: 78px; height: 78px; margin: -39px 0 0 -39px; }
-    .gear-2 { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
-    .gear-3 { width: 28px; height: 28px; top: calc(50% - 40px); left: calc(50% + 30px); }
-    .sub { font-size: 0.92rem; }
-    .logo-name { font-size: 1.3rem; letter-spacing: 2px; }
-    .socials a { width: 42px; height: 42px; }
-    .class-name { letter-spacing: -1px; }
-    .eud-title { font-size: 1.2rem; gap: 8px; }
-    .eud-title .eud { padding: 3px 8px; font-size: 1rem; }
-  }
-</style>
+        /* بج گروه */
+        .group-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 50px;
+            margin-bottom: 36px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .group-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .group-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s;
+        }
+
+        .group-badge:hover::before {
+            left: 100%;
+        }
+
+        .group-badge .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #a78bfa;
+            box-shadow: 0 0 12px #a78bfa;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .group-badge span {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #e9d5ff;
+        }
+
+        /* خط جداکننده */
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+            margin: 0 auto 28px;
+            border-radius: 3px;
+        }
+
+        /* یادداشت پایین */
+        .footer-note {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 600px) {
+            .card {
+                padding: 45px 25px;
+                border-radius: 24px;
+            }
+
+            .icon-wrapper {
+                width: 85px;
+                height: 85px;
+            }
+
+            .icon-wrapper svg {
+                width: 42px;
+                height: 42px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="bg-gradient"></div>
+    <div class="particles" id="particles"></div>
 
-<!-- پس‌زمینه -->
-<div class="bg">
-  <div class="bg-glow"></div>
-  <div class="bg-grid"></div>
-</div>
+    <div class="card">
+        <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+        </div>
 
-<!-- ذرات -->
-<canvas id="particles"></canvas>
+        <div class="group-badge">
+            <span class="dot"></span>
+            <span>گروه Aryon</span>
+        </div>
 
-<!-- محتوا -->
-<main class="wrap">
+        <h1>این پروژه منسوخ شده است</h1>
 
-  <!-- لوگو -->
-  <div class="logo">
-    <div class="logo-img-wrap">
-      <img src="Aryon.jpg" alt="Aryon" class="logo-img" />
+        <div class="divider"></div>
+
+        <p class="description">
+            این پروژه دیگر پشتیبانی نمی‌شود و توسعه آن متوقف شده است.<br>
+            لطفاً به‌جای استفاده از این نسخه، به <strong>نسخه‌های جدیدتر</strong> مراجعه کنید.
+        </p>
+
+        <p class="footer-note">
+            © گروه Aryon — تمامی حقوق محفوظ است
+        </p>
     </div>
-    <span class="logo-name">ARYON</span>
-  </div>
 
-  <!-- چرخ‌دنده‌ها -->
-  <div class="gear-wrap">
-    <svg class="gear gear-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-    </svg>
-    <svg class="gear gear-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-    </svg>
-    <svg class="gear gear-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-    </svg>
-  </div>
+    <script>
+        // ساخت ذرات شناور
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 40;
 
-  <!-- وضعیت -->
-  <div class="status">
-    <span class="dot"></span>
-    <span>در حال ساخت</span>
-  </div>
-
-  <!-- کلاس -->
-  <div class="class-tag">CLASS</div>
-  <h1 class="class-name">
-    کلاس <span>۹۰۳</span>
-  </h1>
-
-  <!-- تیتر EUD -->
-  <div class="eud-title">
-    <span class="word">در حال ساخت هسته</span>
-    <span class="eud">EUD</span>
-  </div>
-
-  <!-- توضیح -->
-  <p class="sub">
-    <strong>هسته EUD</strong> در حال توسعه است.
-    منتظر توضیحات و مرحله بعدی ساخت هستیم —
-    به‌محض آماده شدن، از طریق کانال‌های زیر اطلاع‌رسانی می‌کنیم.
-  </p>
-
-  <!-- نوار پیشرفت -->
-  <div class="progress-wrap">
-    <div class="progress-head">
-      <span>پیشرفت ساخت هسته</span>
-      <span class="value" id="progressValue">۰٪</span>
-    </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-  </div>
-
-  <div class="sep"></div>
-
-  <!-- شبکه‌های اجتماعی -->
-  <div class="socials">
-
-    <!-- گیت‌هاب -->
-    <a href="https://aryon-iran.github.io/" target="_blank" rel="noopener" data-label="گیت‌هاب" aria-label="گیت‌هاب">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
-      </svg>
-    </a>
-
-    <!-- بله -->
-    <a href="https://ble.ir/Aryon_code" target="_blank" rel="noopener" data-label="بله" aria-label="بله">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
-      </svg>
-    </a>
-
-    <!-- آپارات -->
-    <a href="https://www.aparat.com/Aryon.code" target="_blank" rel="noopener" data-label="آپارات" aria-label="آپارات">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="23 7 16 12 23 17 23 7"/>
-        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-      </svg>
-    </a>
-
-    <!-- ایمیل -->
-    <a href="mailto:Aryon.iran@gmail.com" data-label="ایمیل" aria-label="ایمیل">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="4" width="20" height="16" rx="2"/>
-        <path d="M22 7l-10 6L2 7"/>
-      </svg>
-    </a>
-
-  </div>
-
-</main>
-
-<!-- فوتر -->
-<footer class="footer">
-  © ۱۴۰۵ <a href="https://aryon-iran.github.io/" target="_blank" rel="noopener">Aryon</a> — کلاس ۹۰۳
-</footer>
-
-<script>
-  /* ───── نوار پیشرفت (با انیمیشن) ───── */
-  const progressFill = document.getElementById('progressFill');
-  const progressValue = document.getElementById('progressValue');
-
-  // 🎯 درصد رو اینجا تنظیم کن (0 تا 100)
-  const TARGET_PROGRESS = 68;
-
-  const toFa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-
-  let current = 0;
-  setTimeout(() => {
-    progressFill.style.width = TARGET_PROGRESS + '%';
-    const interval = setInterval(() => {
-      if (current >= TARGET_PROGRESS) {
-        clearInterval(interval);
-        return;
-      }
-      current++;
-      progressValue.textContent = toFa(current) + '٪';
-    }, 20);
-  }, 800);
-
-  /* ───── ذرات ───── */
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  class Particle {
-    constructor() {
-      this.x = Math.random() * W;
-      this.y = Math.random() * H;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = (Math.random() - 0.5) * 0.3;
-      this.r = Math.random() * 1.6 + 0.4;
-      this.a = Math.random() * 0.5 + 0.2;
-    }
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x < 0 || this.x > W) this.vx *= -1;
-      if (this.y < 0 || this.y > H) this.vy *= -1;
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-      ctx.fillStyle = '#7dd3fc';
-      ctx.globalAlpha = this.a;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = '#7dd3fc';
-      ctx.fill();
-      ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0;
-    }
-  }
-
-  const count = window.innerWidth < 768 ? 40 : 80;
-  particles = Array.from({ length: count }, () => new Particle());
-
-  let mouse = { x: -9999, y: -9999 };
-  window.addEventListener('mousemove', e => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  });
-
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => { p.update(); p.draw(); });
-
-    // خطوط بین ذرات نزدیک به موس
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      const dm = Math.hypot(p.x - mouse.x, p.y - mouse.y);
-      if (dm < 140) {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.strokeStyle = `rgba(125, 211, 252, ${0.25 * (1 - dm / 140)})`;
-        ctx.lineWidth = 0.6;
-        ctx.stroke();
-      }
-    }
-
-    requestAnimationFrame(loop);
-  }
-  loop();
-</script>
-
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = (Math.random() * 10) + 's';
+            particle.style.opacity = Math.random() * 0.6 + 0.2;
+            
+            const size = Math.random() * 3 + 1;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            // رنگ‌های متنوع
+            const colors = ['#a78bfa', '#f9a8d4', '#60a5fa', '#ffffff'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            particlesContainer.appendChild(particle);
+        }
+    </script>
 </body>
-  </html>
+</html>
